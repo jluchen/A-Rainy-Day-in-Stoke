@@ -4,9 +4,12 @@ CSE 6242 Final Project, Fall 2020
 
 1. Description
 The following code suite is used to build "A Rainy Day in Stoke", a website that seeks to improve fan engagement and knowledege in the sport of soccer.
+Within the CODE folder:
 The EDA folder contains the Jupyter notebooks used to scrape and analyze data from FBref.com.
 The Clustering folder contains the Jupyter notebooks used to cluster/pair the data.
 The viz folder contains the files necessary to build the website. You do not need to run the EDA or Clustering data.  The outputs from those scripts are already stored in the databases.
+Within the DOC folder:
+Contains our project poster and the final paper.
 
 2. Installation
 The code was built on Python 3.7.1.  Other versions are not guaranteed to be supported.
