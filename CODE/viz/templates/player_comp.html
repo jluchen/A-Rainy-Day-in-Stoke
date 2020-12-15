@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<!-- https://towardsdatascience.com/combining-python-and-d3-js-to-create-dynamic-visualization-applications-73c87a494396 -->
+<!-- https://realpython.com/web-development-with-flask-fetching-data-with-requests/ -->
+<script type="text/javascript" src="{{url_for('static', filename='d3.v5.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='d3-tip.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='jquery-3.5.1.js')}}"></script>
+
+<head>
+	<title>Player Comparator</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!-- Nav bar-->
+	<div class="mainBar">
+	   <a href="{{url_for('home')}}">Home</a>
+	   <a href="{{url_for('about')}}">About Us</a>
+	   <a href="{{url_for('player_comp')}}" class="active">Player Comparator</a>
+	   <a href="{{url_for('league_comp')}}">League Comparator</a>
+	   <a href="{{url_for('clustering')}}">Clustering</a>
+	</div>
+</head>
+<body>
+	<div id="player_comp" class="sec-about">
+		<div class="row-about">
+			<h1>Player Comparator</h1>
+			<form method="get" action="{{url_for('player_comp')}}" id="player_search">
+				<input name="player_name" placeholder="Enter player name" class="search" id="player_value">
+				<input type="submit" value="submit player name" class="search">
+			</form>
+		</div>
+		<br>
+		<div class="row-detail">
+			<h1>Similar Players to {{player}}</h1>
+			<div id="player_viz">
+			
+			</div>
+			<br>
+			<h2>How to Use</h2>
+			<div class="instructions">
+				<ul>
+					<li>To search for a player:  Enter a name in the search bar or double click on a player node.</li>
+					<ul>
+						<li>Note that you must type the first name and last name, 
+							and the spelling must match exactly with the spelling listed on 
+							<a href="https://fbref.com/en/players" target="_blank">Football Reference</a>.
+						</li>
+						<li>An edge between nodes means players are similar!</li>
+					</ul>
+					<li>Hover your mouse over a node to see player information.</li>
+					<li>Scroll in/out on the graph to zoom in/out</li>
+					<li>Click and drag on the graph to pan.</li>
+					<li>Click and drag on nodes to rearrange/pin.  Right click a node to unpin.</li>
+				</ul>
+			</div>
+			<!-- d3 script -->
+			<script type="text/javascript" src="{{url_for('static', filename='player_viz.js')}}"></script>
+		</div>
+		
+	</div>
+
+</body>
+</html>

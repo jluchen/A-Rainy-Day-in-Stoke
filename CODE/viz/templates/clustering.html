@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<!-- https://towardsdatascience.com/combining-python-and-d3-js-to-create-dynamic-visualization-applications-73c87a494396 -->
+<!-- https://realpython.com/web-development-with-flask-fetching-data-with-requests/ -->
+<head>
+	<title>Clustering</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!-- Nav bar-->
+	<div class="mainBar">
+	   <a href="{{url_for('home')}}">Home</a>
+	   <a href="{{url_for('about')}}">About Us</a>
+	   <a href="{{url_for('player_comp')}}">Player Comparator</a>
+	   <a href="{{url_for('league_comp')}}">League Comparator</a>
+	   <a href="{{url_for('clustering')}}" class="active">Clustering</a>
+	</div>
+</head>
+<body>
+	<div id="cluster_tool" class="sec-about">
+		<div class="row-about">
+			<h1>Clustering Tool</h1>
+
+			<label>Instructions: Indicate the performance metrics you would like to include in your clustering iteration and how you would like to adjust these performance metrics.</label><br>
+
+			<form method="get" action="{{url_for('clustering')}}" id="n_clusters">
+
+				<label for="Age"> Age </label>
+				<select name="Age" id="age">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Position"> Position </label>
+				<select name="Pos" id="Pos">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Matches Played"> Matches Played </label>
+				<select name="MP" id="MP">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Minutes Played"> Minutes Played </label>
+				<select name="Min" id="Min">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Starts"> Starts </label>
+				<select name="Starts" id="Starts">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Goals"> Goals </label>
+				<select name="Gls" id="gls">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Assists"> Assists </label>
+				<select name="Ast" id="ast">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "SoT"> Shots on Target </label>
+				<select name="SoT" id="SoT">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "GSoT"> Goals per Shots on Target </label>
+				<select name="GSoT" id="ast">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Red Card"> Red Card </label>
+				<select name="CrdR" id="CrdR">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "Yellow Card"> Yellow Card </label>
+				<select name="CrdY" id="CrdY">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+
+				<br><label for = "Fls"> Fouls </label>
+				<select name="Fls" id="Fls">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "PK"> Penalty Kicks </label>
+				<select name="PK" id="PK">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><label for = "TI"> Tackles and Interceptions </label>
+				<select name="TI" id="TI">
+					<option value="None">Do Not Include</option>
+				    <option value="Unadjusted">Unadjusted</option>
+				    <option value="Z">Z Score</option>
+				    <option value="Log">Log Scale</option>
+				    <option value="Rank">Rank Order</option>
+				</select>
+
+				<br><input name="n_clusters" placeholder="Enter Number of Clusters" class="search" id="player_value" onfocus="if (this.value=='Name') this.value='';"/>
+				<input type="submit" value="Get Clustering Results" class="search">
+
+			</form>
+		</div>
+		<br>
+		<div class="row-detail">
+			<h1>Cluster Results for n = {{n_clusters}}</h1>
+			<div id="player_viz">
+			<label> The attributes included were {{cols}}
+<!-- 			<label for = "test1">{{silhouette}}</label>
+ -->		<br><br><label for = "summary">Cluster Summary</label>
+
+				{% for table in summary %}
+					{{ table|safe }}
+				{% endfor %}
+
+			<br><br><label for = "pca">PCA Visualization</label>
+			<br><img src="static/plot.png", alt="my plot">
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

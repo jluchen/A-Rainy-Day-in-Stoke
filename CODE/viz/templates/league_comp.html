@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<!-- https://towardsdatascience.com/combining-python-and-d3-js-to-create-dynamic-visualization-applications-73c87a494396 -->
+<!-- https://realpython.com/web-development-with-flask-fetching-data-with-requests/ -->
+<script type="text/javascript" src="{{url_for('static', filename='d3.v5.min.js')}}"></script>
+<head>
+	<title>League Comparator</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!-- Nav bar-->
+	<div class="mainBar">
+	   <a href="{{url_for('home')}}">Home</a>
+	   <a href="{{url_for('about')}}">About Us</a>
+	   <a href="{{url_for('player_comp')}}">Player Comparator</a>
+	   <a href="{{url_for('league_comp')}}" class="active">League Comparator</a>
+	   <a href="{{url_for('clustering')}}">Clustering</a>
+	</div>
+</head>
+<body>
+	<div id="league_comp" class="sec-about">
+		<div class="row-about">
+			<h2>League Comparator</h2>
+			<!-- <form method="get" action="{{url_for('league_comp')}}">
+				<input name="league_name" placeholder="Enter league name" class="search">
+				<input type="submit" value="submit league name" class="search">
+			</form> -->
+			<!-- <div id="league_display">
+				{% for table in league_rst %}
+					{{table|safe}}
+				{% endfor %}
+			</div> -->
+			<!-- <div id="league_viz">
+
+			</div> -->
+			<div id="select_div">
+				<label for="stats">Choose Statistic to Compare:</label>
+
+				<select name="stats" id="stats" onchange="display_line_chart()">
+				  <option value="('Per 90 Minutes', 'Gls')">Goals per 90 Minutes</option>
+					<option value="('Per 90 Minutes', 'Ast')">Assists per 90 minutes</option>
+				  <option value="('Performance', 'CrdY')">Yellow Cards</option>
+				  <option value="('Performance', 'CrdR')">Red Cards</option>
+					<option value="('Performance', 'Fls')">Fouls committed</option>
+
+				</select>
+				<br>
+				<label for="leagues">Choose Leagues to Compare:</label>
+				<select name="leagues", id="leagues" multiple onchange="display_line_chart()">
+
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row-detail">
+			<div id="league_line_chart">
+
+			</div>
+		</div>
+	</div>
+	<!-- d3 script -->
+	<!-- <script type="text/javascript" src="{{url_for('static', filename='league_viz.js')}}"></script> -->
+	<!-- <script type="text/javascript" src="{{url_for('static', filename='league_chart.js')}}"></script> -->
+	<script>
+
+		var margin = {top:50, right:80, bottom:50, left:50};
+		var width = 1500-margin.left-margin.right;
+		var height = 500 - margin.top - margin.bottom;
+		var barpad = 2;
+
+		var svg = d3.select('#league_line_chart').append('svg')
+			.attr("width", width+margin.left+margin.right)
+			.attr("height", height+margin.top+margin.bottom)
+			.append("g")
+			.attr("transform", "translate(" + margin.left + "," + (margin.top) + ")")
+
+
+
+		//scalers
+		var xscale_years = []
+		for(var i=1988; i<2021; i++){
+			xscale_years.push(i)
+		}
+		var xscale = d3.scaleBand()
+				.range([margin.left, width - margin.right])
+				.domain(xscale_years)
+				// .padding(.1);
+		var yscale = d3.scaleLinear()
+			.range([height, 50]);
+		var min = 0;
+		var max = 0;
+
+		const yaxis = d3.axisLeft()
+				.scale(yscale);
+
+		const xaxis = d3.axisBottom()
+				.scale(xscale);
+
+		var league_list = []
+		var colours = []
+		var colours_dict = {}
+		display_line_chart(0)
+
+		function display_line_chart(iter_par) {
+				svg.selectAll("*").remove();
+				var e = document.getElementById("stats")
+				var selected_stat = e.value;
+				var selected_text = e.options[e.selectedIndex].text
+
+				var league_select = document.getElementById("leagues")
+				var selected_leagues = [...league_select.options].filter(option => option.selected).map(option => option.value)
+
+				var max = 0;
+
+				d3.dsv(',', '/get-line-chart-data?attr='+selected_stat, function(d){
+					return_dict = {League: d['League']}
+
+					for(var i=1988; i<2021; i++){
+						return_dict[i] = d[i]
+						if(d[i]>max){
+							max = d[i]
+						}
+					}
+
+					return return_dict
+
+				}).then(function(line_data){
+
+					console.log("MAX: ", max);
+					yscale.domain([0, max])
+
+					svg.append("g")
+					.attr("class", "x axis")
+					.attr("transform", "translate(0," + height + ")")
+					.call(xaxis);
+
+					svg.append("g")
+					.attr("class", "y axis")
+					.attr("transform", "translate("+margin.left+",0)")
+					.call(yaxis);
+
+					var focus = svg.append("g")
+									.attr("class", "focus")
+									.style("display", "none")
+									.attr("position", "absolute")
+									.attr("width", "10px")
+									.attr("height", "10px")
+									.attr("transform", "translate(50,50)")
+
+					focus.append("text")
+								.attr("class", "league_name")
+								.attr("position", "absolute")
+								.text("HELLOOOOO")
+
+					line_data_mod = []
+
+					var leagues = document.getElementById("leagues")
+					league_list = []
+					var selected_leagues = [...league_select.options].filter(option => option.selected).map(option => option.value)
+
+					line_data.forEach((item, i) => {
+						league_arr = []
+						for(var key in line_data[i]){
+							if( key != 'League'){
+								league_arr.push({"Season": key, "Value": parseFloat(line_data[i][key])})
+							} else {
+								league_name = line_data[i][key]
+								if(iter_par==0){
+
+									league_list.push(league_name)
+
+									o1 = new Option(league_name,league_name)
+									o1.setAttribute("selected", "selected");
+									leagues.options[leagues.options.length] = o1;
+									colours.push("#"+((1<<24)*Math.random()|0).toString(16))
+									colours_dict[league_name] = "#"+((1<<24)*Math.random()|0).toString(16)
+								}
+
+							}
+						}
+
+						if(iter_par==0){
+							line_data_mod.push(league_arr)
+						} else {
+							if(selected_leagues.includes(league_name)){
+								line_data_mod.push(league_arr)
+							}
+						}
+
+
+					});
+					var selected_leagues = [...league_select.options].filter(option => option.selected).map(option => option.value)
+
+
+					for(var j=0; j<line_data_mod.length;j++){
+
+						line_data_mod[j].forEach((key, i) => {
+							// console.log(key);
+							var line = d3.line()
+							.x(function(d){return xscale(d['Season'])})
+							.y(function(d){return yscale(d['Value'])})
+
+							svg.append("path")
+								.data([line_data_mod[j]])
+								.attr("class", "line")
+								.attr("d", line)
+								.style("stroke", colours[j])
+								.style("stroke-width", "2px")
+								.style("fill", "none")
+								.on('mouseover', function (d, k) {
+									d3.select(this).transition()
+											 .attr('opacity', '.85');
+									 focus.style("display", "block");
+									 focus.attr("transform", "translate("+ d3.event.pageX + "," + d3.event.pageY + ")")
+									 // focus.selectAll("text").text("HI")
+
+									})
+								.on('mouseout', function(d,k){
+									d3.select(this).transition()
+											 .attr('opacity', '1');
+									focus.style("display", "none");
+								})
+								.on
+						});
+					}
+					svg.append("text")
+					.attr("transform", "translate(" + (width/2) + ",0)")
+					.attr("fill", "black")
+					.attr("text-anchor", "middle")
+					.style("font-weight", "bold")
+					.style("font-size", "20px")
+					.text("League Comparision for "+ selected_text)
+
+					selected_leagues.forEach((item, i) => {
+						svg.append("circle")
+						.attr("cx", width-margin.right - 10)
+						.attr("cy", 18*i)
+						.attr("r", "5px")
+						.attr("fill", colours[i])
+						.attr("text-anchor", "start")
+
+						svg.append("text")
+						.attr("transform", "translate(" + (width-margin.right) + "," + (20*i) + ")")
+						.attr("fill", "black")
+						.attr("text-anchor", "start")
+						.style("font-weight", "bold")
+						.style("font-size", "15px")
+						.text(item)
+					});
+
+				})
+
+		}
+	</script>
+</body>
+</html>

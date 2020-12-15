@@ -1,0 +1,100 @@
+/*Style ofc subject to change*/
+body {
+  background-color:   #d5d7d4  ;
+  color: #060606;
+ ;
+}
+
+/*Nav bar stuff*/
+.mainBar{
+	overflow: hidden;
+	background-color: #2d790f;
+}
+
+.mainBar a {
+  float: left;
+  color: #1a1a1a;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  color: #060606;
+
+}
+
+.mainBar a:hover {
+  background-color: #898f88 ;
+}
+
+.mainBar a.active{
+	background-color: #898f88;
+}
+
+/*Search bar styling*/
+.search {
+	font-size: 20px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+
+}
+
+/*Row Styling*/
+.sec-about{
+	text-align: center;
+}
+.row-about {
+	background:#b8e4a6;
+	font-size: 35px;
+	padding-left: 10em;
+	padding-right: 10em;
+	padding-bottom: 15px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+
+}
+.row-detail {
+	background: #f1f4f0;
+	font-size:20px;
+	padding-bottom:15px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color: #060606;
+}
+.col-1 {
+	display: inline-block;
+	vertical-align: top;
+	width:24%;
+}
+.col-2 {
+	display: inline-block;
+	vertical-align: top;
+	width:24%;
+}
+
+.instructions {
+	 width:500px;
+	 margin:0 auto;
+	 text-align:left;
+	 font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	 color: #060606;
+
+}
+
+/*player stuff*/
+.table-center {
+	margin-left:auto;
+	margin-right:auto;
+}
+td,th {
+	text-align: center;
+}
+
+/*D3 styling*/
+.player_graph {
+	display:block;
+	margin:auto;
+}
+
+.tip{
+	background: #b8e4a6;
+	padding: 5px;
+	position: absolute;
+}

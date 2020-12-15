@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<!-- https://towardsdatascience.com/combining-python-and-d3-js-to-create-dynamic-visualization-applications-73c87a494396 -->
+<!-- https://realpython.com/web-development-with-flask-fetching-data-with-requests/ -->
+<head>
+	<title>A Rainy Day in Stoke</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!-- Nav bar-->
+	<div class="mainBar">
+	   <a href="{{url_for('home')}}" class="active">Home</a>
+	   <a href="{{url_for('about')}}">About Us</a>
+	   <a href="{{url_for('player_comp')}}">Player Comparator</a>
+	   <a href="{{url_for('league_comp')}}">League Comparator</a>
+	   <a href="{{url_for('clustering')}}">Clustering</a>
+	</div>
+</head>
+<body>
+	<section class="sec-about">
+		<div class="row-about">
+			<h1>A Rainy Day in Stoke</h1>
+			<p>
+				Soccer is the world’s most popular sport, with a fanbase of over 3.5 billion people. And one question has always divided them: “Can Lionel Messi, the best player in the world, dominate on a cold, rainy night in Stoke”? We wanted to try and answer that quesion, and in the process bring fans both casual and intense a new way to look at soccer.
+				<br><br>
+				The aim of this project is to build a comprehensive analysis of all football players regardless of league, competition, season, and even gender.  
+				<br><br>
+				Have fun exploring!
+			</p>
+		</div>
+		<div class="row-detail">
+			<h1>Tools</h1>
+			<article class="col-1">
+				<h1>Player Comparator</h1>
+				<p>
+					Using our player comparator tool, you can put in the name of a soccer player and find out which players are similar!  For example, if your favorite player is Lionel Messi, you can find players similar to him who may also be in lesser known leagues or competitions.
+				</p>
+			</article>
+			<article class="col-1">
+				<h1>League Comparator</h1>
+				<p>
+					Using our league comparator tool, you can compare two or more soccer leagues with regards to goals, assists, yellow cards, red cards, and fouls committed.  Is La Liga really much easier than the English Premier League?
+				</p>
+			</article>
+			<article class="col-1">
+				<h1>Clustering Tool</h1>
+				<p>
+					For more technical users, you can use the clustering tool to cluster soccer players yourself!  Choose which stats you would like to include, how you want to standardize them, and how many clusters you want.  See if you can find meaningful player groups and characteristics!
+				</p>
+			</article>
+			<article class="col-1">
+				<h1>Data</h1>
+				<p>
+					Data used for these analyses was scraped from <a href="https://fbref.com/en/" target="_blank">Football Reference</a>
+				</p>
+			</article>
+		</div>
+	</section>
+
+</body>
+</html>

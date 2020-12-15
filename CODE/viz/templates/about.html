@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<!-- https://towardsdatascience.com/combining-python-and-d3-js-to-create-dynamic-visualization-applications-73c87a494396 -->
+<!-- https://realpython.com/web-development-with-flask-fetching-data-with-requests/ -->
+<head>
+	<title>About Us</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!-- Nav bar-->
+	<div class="mainBar">
+	   <a href="{{url_for('home')}}">Home</a>
+	   <a href="{{url_for('about')}}" class="active">About Us</a>
+	   <a href="{{url_for('player_comp')}}">Player Comparator</a>
+	   <a href="{{url_for('league_comp')}}">League Comparator</a>
+	   <a href="{{url_for('clustering')}}">Clustering</a>
+	</div>
+</head>
+<body>
+	<section class="sec-about">
+		<div class="row-about">
+			<h1>About</h1>
+			<p>
+				This project was completed in Fall 2020 at the Georgia Institute of Technology in CSE 6242: Data Analytics and Visualization under Polo Chau and Mahdi Roozbahani.
+			</p>
+		</div>
+		<div class="row-detail">
+			<h1>Team 15 Members</h1>
+			<article class="col-2">
+				<h1>Morissa Chen</h1>
+				<p>
+					MS Analytics<br>
+					mchen3721@gatech.edu
+				</p>
+			</article>
+			<article class="col-2">
+				<h1>Mihir Dhoot</h1>
+				<p>
+					MS Analytics<br>
+					mdhoot3@gatech.edu
+				</p>
+			</article>
+			<article class="col-2">
+				<h1>Ashwin Nallan</h1>
+				<p>
+					MS Analytics<br>
+					anallan3@gatech.edu
+				</p>
+			</article>
+			<article class="col-2">
+				<h1>Justin Chen</h1>
+				<p>
+					MS Analytics<br>
+					jchen3001@gatech.edu
+				</p>
+			</article>
+		</div>
+	</section>
+
+</body>
+</html>
